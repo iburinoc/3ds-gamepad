@@ -29,9 +29,9 @@ include $(DEVKITARM)/3ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	gamepad
 BUILD		:=	build
-SOURCES		:=	source
+SOURCES		:=	source ../common/frame
 DATA		:=	data
-INCLUDES	:=	include
+INCLUDES	:=	include ../common/frame
 #ROMFS		:=	romfs
 
 #---------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ LIBS	:= -lctru -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CTRULIB)
+LIBDIRS	:= $(CTRULIB) /usr/local
 
 
 #---------------------------------------------------------------------------------

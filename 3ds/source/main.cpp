@@ -2,17 +2,19 @@
 
 #include <3ds.h>
 
-#ifndef MILLI_PER_REPORT
-#define MILLI_PER_REPORT ((u64)1)
-#endif
+#include "frame.pb.h"
 
-#ifndef SHORT_WAIT
-#define SHORT_WAIT ((u64)250)
-#endif
-
+namespace {
 void init() {
     gfxInitDefault();
     consoleInit(GFX_TOP, NULL);
+}
+
+void presentFrame() {
+    gfxFlushBuffers();
+    gfxSwapBuffers();
+    gspWaitForVBlank();
+}
 }
 
 int main(int argc, char** argv) {
@@ -31,9 +33,8 @@ int main(int argc, char** argv) {
         u32 kUp = hidKeysUp();
 
         if (kDown & KEY_START) break;
-        gfxFlushBuffers();
-        gfxSwapBuffers();
-        //gspWaitForVBlank();
+
+        presentFrame();
     }
 
     gfxExit();

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message GamepadFrame {
+    sint32 lx = 1;
+    sint32 ly = 2;
+    sint32 rx = 3;
+    sint32 ry = 4;
+    bool du = 5;
+    bool dd = 6;
+    bool dl = 7;
+    bool dr = 8;
+    bool a = 9;
+    bool b = 10;
+    bool x = 11;
+    bool y = 12;
+    bool start = 13;
+    bool select = 14;
+    bool l = 15;
+    bool zl = 16;
+    bool r = 17;
+    bool zr = 18;
+}
