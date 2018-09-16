@@ -1,29 +1,23 @@
-#include <cstdio>
-
 #include <3ds.h>
 
+#include <cstdio>
+
 #include "frame.pb.h"
-
-namespace {
-void init() {
-    gfxInitDefault();
-    consoleInit(GFX_TOP, NULL);
-}
-
-void presentFrame() {
-    gfxFlushBuffers();
-    gfxSwapBuffers();
-    gspWaitForVBlank();
-}
-}
+#include "gamepad.h"
+#include "get_ip.h"
 
 int main(int argc, char** argv) {
-    init();
+    gamepad::init();
+
+    std::string ip = gamepad::get_ip();
+    if (ip.size() == 0) {
+        return 1;
+    }
 
     u64 prevTime = osGetTime();
     while (aptMainLoop()) {
         u64 newTime = osGetTime();
-        printf("\x1b[1;1HHI! %llu", (newTime - prevTime));
+        printf("\x1b[1;1HHI! %s %llu", ip.c_str(), (newTime - prevTime));
         prevTime = newTime;
 
         hidScanInput();
@@ -32,10 +26,11 @@ int main(int argc, char** argv) {
         u32 kHeld = hidKeysHeld();
         u32 kUp = hidKeysUp();
 
-        if (kDown & KEY_START) break;
+        if (kDown & KEY_START)
+            break;
 
-        presentFrame();
+        gamepad::presentFrame();
     }
 
-    gfxExit();
+    gamepad::teardown();
 }
