@@ -31,7 +31,7 @@ TARGET		:=	gamepad
 BUILD		:=	build
 SOURCES		:=	source ../common/frame
 DATA		:=	data
-INCLUDES	:=	include ../common/frame
+INCLUDES	:=	include ../ ../common/frame
 #ROMFS		:=	romfs
 
 #---------------------------------------------------------------------------------

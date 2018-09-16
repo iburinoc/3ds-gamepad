@@ -4,7 +4,6 @@ namespace gamepad {
 
 void init() {
     gfxInitDefault();
-    consoleInit(GFX_TOP, NULL);
 }
 
 void teardown() {

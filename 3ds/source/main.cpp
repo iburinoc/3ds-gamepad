@@ -2,9 +2,10 @@
 
 #include <cstdio>
 
-#include "frame.pb.h"
+#include "console.h"
 #include "gamepad.h"
 #include "get_ip.h"
+#include "state.h"
 
 int main(int argc, char** argv) {
     gamepad::init();
@@ -14,20 +15,20 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    gamepad::Console console;
+    console.printf("Sending to: %s\n", ip.c_str());
+
+    gamepad::State state;
+
     u64 prevTime = osGetTime();
     while (aptMainLoop()) {
         u64 newTime = osGetTime();
-        printf("\x1b[1;1HHI! %s %llu", ip.c_str(), (newTime - prevTime));
-        prevTime = newTime;
+        prevTime    = newTime;
 
-        hidScanInput();
+        console.set_pos(1, 2);
 
-        u32 kDown = hidKeysDown();
-        u32 kHeld = hidKeysHeld();
-        u32 kUp = hidKeysUp();
-
-        if (kDown & KEY_START)
-            break;
+        state.scan();
+        state.print(console);
 
         gamepad::presentFrame();
     }

@@ -26,7 +26,7 @@ std::string match_leq(int x) {
 
     s << "[1-9]\\d{0," << (l - 1) << "}";
     for (; p > 0; p /= 10, l--) {
-        int d = (x / p) % 10;
+        int d    = (x / p) % 10;
         int pref = x / p / 10;
         if (d == 0)
             continue;
@@ -71,7 +71,7 @@ std::string get_ip() {
     swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
     swkbdSetNumpadKeys(&state, L':', L'.');
     swkbdSetHintText(&state, "IP address");
-    swkbdSetInitialText(&state, "test");
+    swkbdSetInitialText(&state, "1.1.1.1");
     swkbdSetFilterCallback(&state, validate_ip, nullptr);
 
     const size_t size = 22;
