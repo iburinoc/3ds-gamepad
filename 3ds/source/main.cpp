@@ -5,19 +5,21 @@
 #include "console.h"
 #include "gamepad.h"
 #include "get_ip.h"
+#include "sender.h"
 #include "state.h"
 
 int main(int argc, char** argv) {
     gamepad::init();
 
-    std::string ip = gamepad::get_ip();
-    if (ip.size() == 0) {
+    std::string addr = gamepad::get_ip();
+    if (addr.size() == 0) {
         return 1;
     }
 
     gamepad::Console console;
-    console.printf("Sending to: %s\n", ip.c_str());
+    console.printf("Sending to: %s\n", addr.c_str());
 
+    gamepad::Sender sender(addr);
     gamepad::State state;
 
     u64 prevTime = osGetTime();
@@ -29,6 +31,7 @@ int main(int argc, char** argv) {
 
         state.scan();
         state.print(console);
+        sender.send(state);
 
         gamepad::presentFrame();
     }

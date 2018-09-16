@@ -19,4 +19,6 @@ message GamepadFrame {
     bool zl = 16;
     bool r = 17;
     bool zr = 18;
+
+    int64 seqno = 50;
 }

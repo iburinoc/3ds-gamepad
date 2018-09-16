@@ -2,6 +2,9 @@
 
 #include <3ds.h>
 
+#include "common/frame/frame.pb.h"
+#include "common/frame/pb_encode.h"
+
 namespace gamepad {
 State::State() : frame(GamepadFrame_init_zero) {
     hidInit();  // Initialize HID (and IRRST by proxy)
@@ -40,9 +43,11 @@ void State::scan() {
     irrstCstickRead(&cspos);
     frame.rx = cspos.dx;
     frame.ry = cspos.dy;
+
+    frame.seqno++;
 }
 
-void State::print(Console& c) {
+void State::print(Console& c) const {
     c.printf("LX: %4d LY: %4d\n", frame.lx, frame.ly);
     c.printf("RX: %4d RY: %4d\n", frame.rx, frame.ry);
 
@@ -54,5 +59,12 @@ void State::print(Console& c) {
     c.printf("START: %d SELECT: %d\n", frame.start, frame.select);
 }
 
-void State::serialize() {}
+std::vector<uint8_t> State::serialize() const {
+    std::vector<uint8_t> out(GamepadFrame_size);
+    auto stream = pb_ostream_from_buffer(out.data(), out.size());
+    auto status = pb_encode(&stream, GamepadFrame_fields, &frame);
+
+    out.resize(status ? stream.bytes_written : 0);
+    return out;
+}
 }  // namespace gamepad

@@ -71,7 +71,6 @@ std::string get_ip() {
     swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
     swkbdSetNumpadKeys(&state, L':', L'.');
     swkbdSetHintText(&state, "IP address");
-    swkbdSetInitialText(&state, "1.1.1.1");
     swkbdSetFilterCallback(&state, validate_ip, nullptr);
 
     const size_t size = 22;
