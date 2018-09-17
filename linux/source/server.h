@@ -19,7 +19,7 @@ public:
     Server(std::string host, int port);
     ~Server();
 
-    std::vector<uint8_t> receive();
+    std::vector<uint8_t> receive(size_t maxsize);
 };
 
 }  // namespace gamepad

@@ -1,8 +1,9 @@
 #include <atomic>
+#include <iostream>
+#include <string>
 #include <vector>
 
-#include "external/common/frame/frame.pb.h"
-#include "external/common/frame/pb_decode.h"
+#include "frame.h"
 #include "server.h"
 
 std::atomic<bool> quit(false);
@@ -13,8 +14,16 @@ void sighandle(int) {
 
 int main(int argc, char** argv) {
     gamepad::Server server("0.0.0.0", 44813);
+    // gamepad::Device device;
 
-    while (quit.load()) {
-        auto data = server.receive();
+    GamepadFrame frame = GamepadFrame_init_zero;
+
+    while (!quit.load()) {
+        auto data = server.receive(1024);
+
+        auto new_frame = gamepad::parse_frame(data);
+        if (new_frame.seqno < frame.seqno)
+            continue;
+        frame = new_frame;
     }
 }
