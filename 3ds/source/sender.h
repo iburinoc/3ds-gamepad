@@ -2,6 +2,7 @@
 
 #include <arpa/inet.h>
 
+#include <cstdint>
 #include <string>
 
 #include "state.h"
@@ -13,6 +14,8 @@
 namespace gamepad {
 
 class Sender {
+    uint32_t* soc_mem;
+
     int sock;
     sockaddr_in dest;
 
