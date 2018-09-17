@@ -22,11 +22,7 @@ int main(int argc, char** argv) {
     gamepad::Sender sender(addr);
     gamepad::State state;
 
-    u64 prevTime = osGetTime();
     while (aptMainLoop()) {
-        u64 newTime = osGetTime();
-        prevTime    = newTime;
-
         console.set_pos(1, 2);
 
         state.scan();
