@@ -1,9 +1,16 @@
 cc_library(
     name = "gamepad",
-    srcs = glob(["*.cpp", "*.h"]),
-    deps = [
-        "@common//frame:frame",
+    srcs = glob([
+        "*.cpp",
+        "*.h",
+    ]),
+    copts = [
+        "-Iexternal/common/frame",
+        "-I/usr/include/libevdev-1.0",
     ],
-    copts = ["-Iexternal/common/frame"],
+    linkopts = ["-levdev"],
     visibility = ["//visibility:public"],
+    deps = [
+        "@common//frame",
+    ],
 )

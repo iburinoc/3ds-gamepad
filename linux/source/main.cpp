@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "device.h"
 #include "frame.h"
 #include "server.h"
 
@@ -14,7 +15,7 @@ void sighandle(int) {
 
 int main(int argc, char** argv) {
     gamepad::Server server("0.0.0.0", 44813);
-    // gamepad::Device device;
+    gamepad::Device device;
 
     GamepadFrame frame = GamepadFrame_init_zero;
 
