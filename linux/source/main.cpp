@@ -26,5 +26,6 @@ int main(int argc, char** argv) {
         if (new_frame.seqno < frame.seqno)
             continue;
         frame = new_frame;
+        device.send_events(frame);
     }
 }

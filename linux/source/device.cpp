@@ -6,6 +6,8 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "external/common/frame/frame.pb.h"
+
 namespace gamepad {
 
 Device::Device() {
@@ -66,6 +68,33 @@ Device::~Device() {
         libevdev_uinput_destroy(uinput_dev);
     if (dev)
         libevdev_free(dev);
+}
+
+void Device::send_events(GamepadFrame& frame) {
+    libevdev_uinput_write_event(uinput_dev, EV_ABS, ABS_X, frame.lx);
+    libevdev_uinput_write_event(uinput_dev, EV_ABS, ABS_Y, frame.ly);
+    libevdev_uinput_write_event(uinput_dev, EV_ABS, ABS_RX, frame.rx);
+    libevdev_uinput_write_event(uinput_dev, EV_ABS, ABS_RY, frame.ry);
+
+    int hat0x = frame.dr - frame.dl;
+    int hat0y = frame.du - frame.dd;
+    libevdev_uinput_write_event(uinput_dev, EV_ABS, ABS_HAT0X, hat0x);
+    libevdev_uinput_write_event(uinput_dev, EV_ABS, ABS_HAT0Y, hat0y);
+
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_SOUTH, frame.b);
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_EAST, frame.a);
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_NORTH, frame.x);
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_WEST, frame.y);
+
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_TL, frame.l);
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_TR, frame.r);
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_TL2, frame.zl);
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_TR2, frame.zr);
+
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_SELECT, frame.select);
+    libevdev_uinput_write_event(uinput_dev, EV_KEY, BTN_START, frame.start);
+
+    libevdev_uinput_write_event(uinput_dev, EV_SYN, SYN_REPORT, 0);
 }
 
 }  // namespace gamepad
