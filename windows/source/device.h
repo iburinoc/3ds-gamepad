@@ -6,9 +6,10 @@
 namespace gamepad {
 
 class Device {
+    unsigned int dev_id;
 
 public:
-    Device();
+    Device(unsigned int dev_id=1);
     ~Device();
 
     void send_events(GamepadFrame& frame);

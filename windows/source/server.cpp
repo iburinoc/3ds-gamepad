@@ -46,13 +46,9 @@ Server::~Server() {
 std::vector<uint8_t> Server::receive(size_t maxsize) {
     std::vector<uint8_t> res(maxsize);
 
-    std::cout << "Waiting for packet" << std::endl;
     int size = recv(sock, (char*)res.data(), maxsize, 0);
     if (size < 0)
         throw std::runtime_error("Error receiving packet");
-
-
-    std::cout << "Received packet" << std::endl;
 
     res.resize(size);
 
